@@ -1,36 +1,38 @@
-In-Hospital Mortality Prediction using MIMIC-IV Overview
+In-Hospital Mortality Prediction using MIMIC-IV
+Overview
 
 This project focuses on building an interpretable machine learning pipeline to predict in-hospital mortality using early clinical data from the MIMIC-IV dataset.
 
-The motivation behind this work is to understand how routinely collected hospital information, available early during admission, can be used to support risk stratification. Rather than aiming for maximum predictive performance, the project emphasizes correct problem formulation, realistic data handling, and explainability — all of which are essential when working with healthcare data.
+The objective is to estimate patient risk using information available within the first 24 hours of hospital admission, following realistic clinical deployment constraints.
 
 Motivation
 
-Hospitals manage large volumes of patients with varying levels of clinical risk. While some patients deteriorate rapidly, early warning signs may not always be obvious during initial assessment.
+Early identification of high-risk patients is a critical challenge in hospital care. Delayed recognition of clinical deterioration can lead to poorer outcomes and increased burden on intensive care resources.
 
-Predictive models trained on historical data can help identify patterns associated with poor outcomes and assist clinicians in prioritizing care. However, building such models requires careful attention to data leakage, outcome definition, and missing data mechanisms.
+Machine learning models, when designed carefully, can assist clinicians by providing early risk estimates. However, healthcare data introduces challenges such as missing values, temporal leakage, and ethical responsibility.
 
-This project explores these challenges using a real-world clinical dataset.
+This project was developed to address these challenges in a structured and transparent manner.
 
 Dataset
 
-The dataset used in this project is MIMIC-IV (version 3.1), a large, publicly available, de-identified database containing hospital and ICU data from Beth Israel Deaconess Medical Center.
+Source:
+MIMIC-IV (v3.1), a large de-identified clinical database published by the MIT Laboratory for Computational Physiology.
 
-Only hospital-level tables are used to ensure that all features are available before the outcome occurs.
-
-Tables utilized
+Tables used:
 
 admissions
 
 labevents
 
-Each row in the final modeling table corresponds to a single hospital admission.
+Each row in the final dataset corresponds to one hospital admission.
+
+Patient-level data is not included in this repository in accordance with the MIMIC-IV data usage agreement.
 
 Prediction Task
 
-The objective is to predict whether a patient will die during their hospital stay.
+The goal is to predict whether a patient will die during their hospital stay.
 
-Target variable
+Target variable:
 
 hospital_expire_flag
 
@@ -38,15 +40,13 @@ hospital_expire_flag
 
 0 — patient survived
 
-This outcome is objective, clearly defined, and directly recorded in the dataset, making it suitable for supervised learning.
+This outcome is objective and directly recorded in the dataset.
 
 Feature Engineering
 
-To reflect realistic clinical deployment, only data available within the first 24 hours after hospital admission is used.
+Only information available within the first 24 hours after admission is used to prevent temporal leakage.
 
-Laboratory features
-
-Early laboratory values were extracted and aggregated for the following measurements:
+Laboratory features included:
 
 Hemoglobin
 
@@ -66,102 +66,102 @@ Glucose
 
 For each laboratory test:
 
-the mean value within the first 24 hours was calculated
+the mean value within the first 24 hours is calculated
 
-an indicator variable was added to represent whether the test was ordered
+a binary indicator is added to represent whether the test was ordered
 
-This approach captures both physiological information and clinician decision-making behavior.
+This approach captures both physiological measurements and clinician decision-making behavior.
 
 Handling Missing Data
 
-Missing values in clinical datasets are rarely random. In many cases, laboratory tests are not ordered because the patient appears clinically stable.
+Missing values in clinical datasets are rarely random. Laboratory tests are often ordered selectively based on patient condition.
 
-Instead of discarding such records, this project treats missingness as informative by:
+To reflect this reality:
 
-creating explicit presence indicators for each laboratory feature
+explicit lab presence indicators are created
 
-applying median imputation only after indicator creation
+median imputation is applied after indicator creation
 
-This strategy preserves useful signal while maintaining model robustness.
+This preserves meaningful clinical signal while ensuring model stability.
 
 Modeling Approach
 
-Two models were developed:
+Two models are trained:
 
 Baseline model
 
 Logistic Regression with class weighting
 
-This model serves as a transparent baseline and helps establish whether meaningful signal exists in the data.
-
 Final model
 
 XGBoost classifier
 
-The tree-based model captures nonlinear interactions between laboratory features and improves predictive performance while remaining interpretable through post-hoc explanation methods.
+The baseline model establishes interpretability and a performance reference point, while XGBoost captures nonlinear feature interactions.
 
 Evaluation Strategy
 
-In-hospital mortality is an imbalanced outcome, so accuracy is not used as the primary metric.
+In-hospital mortality is an imbalanced outcome; therefore, accuracy is not used as the primary metric.
 
-Model performance is evaluated using:
+Evaluation focuses on:
 
 ROC-AUC
 
 precision and recall for the mortality class
 
-These metrics better reflect the clinical importance of identifying high-risk patients.
+These metrics better reflect clinical priorities.
 
-Model Explainability
+Explainability
 
-To understand the behavior of the trained model, SHAP values are used to analyze feature contributions.
+Model predictions are interpreted using SHAP values to identify feature contributions.
 
-This step helps verify whether learned patterns align with known clinical intuition, such as increased risk associated with renal dysfunction or metabolic abnormalities.
+Explainability helps verify that learned patterns align with established clinical understanding and improves trust in model behavior.
 
-Explainability is treated as a core component of the modeling process rather than an optional add-on.
+Project Structure
+ML_PROJECT/
+│
+├── data/
+│   ├── raw/                 # raw extracted dataset (not version controlled)
+│   └── processed/           # cleaned dataset for modeling
+│
+├── notebooks/
+│   └── 01_exploration.ipynb # exploratory data analysis
+│
+├── src/
+│   ├── preprocessing.py     # feature engineering pipeline
+│   └── train.py             # model training and evaluation
+│
+├── models/
+│   └── xgb_model.pkl
+│
+├── requirements.txt
+└── README.md
 
-Project Structure ML_PROJECT/ │ ├── data/ │ ├── raw/ # raw extracted dataset │ └── processed/ # cleaned and imputed data │ ├── notebooks/ │ └── 01_exploration.ipynb # exploratory data analysis │ ├── src/ │ ├── preprocessing.py # feature engineering pipeline │ └── train.py # model training and evaluation │ ├── models/ │ └── xgb_model.pkl │ ├── requirements.txt └── README.md
-
-Key Design Decisions
+Key Design Principles
 
 One row per hospital admission
 
 Strict temporal separation between features and outcomes
 
-No use of ICU-only data prior to ICU admission
+No use of ICU-only data prior to outcome occurrence
 
-Explicit handling of missing clinical information
+Explicit handling of clinically driven missingness
 
-Separation of exploration, preprocessing, and modeling code
+Clear separation between exploration and modeling code
 
-These decisions mirror practices used in applied healthcare machine learning.
+These principles mirror best practices in applied healthcare machine learning.
 
 Limitations
 
-The model is trained on data from a single hospital system
+Data originates from a single hospital system
 
-Only laboratory data is used; vital signs and clinical notes are not included
+Only laboratory data is used
 
-The model is not intended for real-world deployment
+The model is not intended for clinical deployment
 
-These limitations are acknowledged to avoid overinterpretation of results.
+These limitations are acknowledged to avoid overinterpretation.
 
 Disclaimer
 
-This project is intended strictly for academic and educational purposes.
+This project is intended strictly for educational and research purposes.
 
 It does not provide medical advice and must not be used in clinical decision-making.
-
-Summary
-
-This project demonstrates an end-to-end machine learning workflow using real-world healthcare data, with a focus on:
-
-careful outcome definition
-
-realistic data constraints
-
-meaningful feature engineering
-
-transparent evaluation
-
-model interpretability
