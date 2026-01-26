@@ -1,5 +1,4 @@
-In-Hospital Mortality Prediction using MIMIC-IV
-Overview
+In-Hospital Mortality Prediction using MIMIC-IV Overview
 
 This project focuses on building an interpretable machine learning pipeline to predict in-hospital mortality using early clinical data from the MIMIC-IV dataset.
 
@@ -121,25 +120,7 @@ This step helps verify whether learned patterns align with known clinical intuit
 
 Explainability is treated as a core component of the modeling process rather than an optional add-on.
 
-Project Structure
-ML_PROJECT/
-│
-├── data/
-│   ├── raw/                 # raw extracted dataset
-│   └── processed/           # cleaned and imputed data
-│
-├── notebooks/
-│   └── 01_exploration.ipynb  # exploratory data analysis
-│
-├── src/
-│   ├── preprocessing.py     # feature engineering pipeline
-│   └── train.py              # model training and evaluation
-│
-├── models/
-│   └── xgb_model.pkl
-│
-├── requirements.txt
-└── README.md
+Project Structure ML_PROJECT/ │ ├── data/ │ ├── raw/ # raw extracted dataset │ └── processed/ # cleaned and imputed data │ ├── notebooks/ │ └── 01_exploration.ipynb # exploratory data analysis │ ├── src/ │ ├── preprocessing.py # feature engineering pipeline │ └── train.py # model training and evaluation │ ├── models/ │ └── xgb_model.pkl │ ├── requirements.txt └── README.md
 
 Key Design Decisions
 
@@ -184,4 +165,3 @@ meaningful feature engineering
 transparent evaluation
 
 model interpretability
-
