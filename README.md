@@ -116,24 +116,26 @@ Explainability helps verify that learned patterns align with established clinica
 
 ## Project Structure
 
+```
 ML_PROJECT/
 │
 ├── data/
-│ ├── raw/ # raw extracted dataset (not version controlled)
-│ └── processed/ # cleaned dataset for modeling
+│   ├── raw/                  # raw extracted dataset (not version controlled)
+│   └── processed/            # cleaned dataset for modeling
 │
 ├── notebooks/
-│ └── 01_exploration.ipynb # exploratory data analysis
+│   └── 01_exploration.ipynb  # exploratory data analysis
 │
 ├── src/
-│ ├── preprocessing.py # feature engineering pipeline
-│ └── train.py # model training and evaluation
+│   ├── preprocessing.py      # feature engineering pipeline
+│   └── train.py              # model training and evaluation
 │
 ├── models/
-│ └── xgb_model.pkl
+│   └── xgb_model.pkl
 │
 ├── requirements.txt
 └── README.md
+```
 
 
 
@@ -171,5 +173,5 @@ It does not provide medical advice and must not be used in clinical decision-mak
 
 ## Author
 
-Meet Ramjiyani
-Saish Walavalkar
+##Meet Ramjiyani
+##Saish Walavalkar
