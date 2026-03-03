@@ -172,6 +172,5 @@ It does not provide medical advice and must not be used in clinical decision-mak
 ---
 
 ## Author
-
-##Meet Ramjiyani
-##Saish Walavalkar
+Meet Ramjiyani
+Saish Walavalkar
