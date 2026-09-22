@@ -114,6 +114,29 @@ Explainability helps verify that learned patterns align with established clinica
 
 ---
 
+## Quick Start
+
+From the project root:
+
+```bash
+python src/preprocessing.py
+python src/train.py
+```
+
+Or run the full pipeline in one step:
+
+```bash
+python src/run_pipeline.py
+```
+
+This workflow:
+- builds the processed cohort dataset
+- saves feature metadata for reproducibility
+- trains the baseline and XGBoost models
+- saves evaluation metrics to `models/metrics.json`
+
+---
+
 ## Project Structure
 
 ```
@@ -121,23 +144,23 @@ ML_PROJECT/
 │
 ├── data/
 │   ├── raw/                  # raw extracted dataset (not version controlled)
-│   └── processed/            # cleaned dataset for modeling
+│   └── processed/            # cleaned dataset and feature metadata
+│
+├── models/
+│   ├── metrics.json          # model evaluation summary
+│   └── xgb_model.pkl        # trained model artifact
 │
 ├── notebooks/
 │   └── 01_exploration.ipynb  # exploratory data analysis
 │
 ├── src/
 │   ├── preprocessing.py      # feature engineering pipeline
+│   ├── run_pipeline.py        # end-to-end data prep + training
 │   └── train.py              # model training and evaluation
-│
-├── models/
-│   └── xgb_model.pkl
 │
 ├── requirements.txt
 └── README.md
 ```
-
-
 
 ---
 

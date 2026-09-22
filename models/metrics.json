@@ -1,0 +1,46 @@
+{
+  "dataset_shape": {
+    "rows": 546028,
+    "columns": 19
+  },
+  "train_test_split": {
+    "train_rows": 436822,
+    "test_rows": 109206,
+    "test_size": 0.2,
+    "random_state": 42
+  },
+  "feature_columns": [
+    "hgb_mean",
+    "wbc_mean",
+    "platelets_mean",
+    "creatinine_mean",
+    "sodium_mean",
+    "potassium_mean",
+    "bicarbonate_mean",
+    "glucose_mean",
+    "hgb_mean_present",
+    "wbc_mean_present",
+    "platelets_mean_present",
+    "creatinine_mean_present",
+    "sodium_mean_present",
+    "potassium_mean_present",
+    "bicarbonate_mean_present",
+    "glucose_mean_present"
+  ],
+  "logistic_regression": {
+    "roc_auc": 0.7485059956401691,
+    "average_precision": 0.09446747833081448,
+    "precision": 0.0505641058053914,
+    "recall": 0.6779661016949152,
+    "f1": 0.09410934329323883,
+    "brier_score": 0.19788930498117777
+  },
+  "xgboost": {
+    "roc_auc": 0.810213212378849,
+    "average_precision": 0.1643964904476024,
+    "precision": 0.06686405132000987,
+    "recall": 0.6889830508474576,
+    "f1": 0.12189819326786117,
+    "brier_score": 0.16679136455059052
+  }
+}
